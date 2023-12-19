@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Student Information</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        /* Styling for the input form */
+        .student-form {
+            display: inline-block;
+            text-align: left;
+            width: 300px;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Styling for table and table headers */
+        table {
+            width: 100%;
+            background-color: #fff;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        table th,
+        table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        table th {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        /* Styling for delete button */
+        .delete-button {
+            background-color: #ff3333;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Student Information</h1>
+
+    <div class="student-form">
+        <h2>Add Student</h2>
+        <form id="studentForm">
+            <label for="studentId">Student ID (Integer only):</label>
+            <input type="text" id="studentId" style="width: 100%; padding: 5px;"><br>
+
+            <label for="studentName">Student Name (String only):</label>
+            <input type="text" id="studentName" style="width: 100%; padding: 5px;"><br>
+
+            <label for="studentAddress">Student Address:</label>
+            <input type="text" id="studentAddress" style="width: 100%; padding: 5px;"><br>
+
+            <!-- Add three more fields with labels and input elements here -->
+            <!-- Example: 
+            <label for="field1">Field 1:</label>
+            <input type="text" id="field1" style="width: 100%; padding: 5px;"><br>
+            -->
+
+            <button type="button" onclick="addStudent()"
+                style="background-color: #007bff; color: #fff; border: none; padding: 10px 20px; margin-top: 20px; cursor: pointer;">Add
+                Student</button>
+        </form>
+    </div>
+
+    <h2 style="color: #333; margin-top: 30px;">Student List</h2>
+
+    <table id="studentTable">
+        <thead>
+            <tr>
+                <th>Student ID</th>
+                <th>Student Name</th>
+                <th>Student Address</th>
+                <!-- Add headers for three additional fields here -->
+                <!-- Example:
+                <th>Field 1</th>
+                -->
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script>
+        function addStudent() {
+            const studentId = document.getElementById("studentId").value;
+            const studentName = document.getElementById("studentName").value;
+            const studentAddress = document.getElementById("studentAddress").value;
+
+            // Validate student ID as an integer
+            if (!/^\d+$/.test(studentId)) {
+                alert("Student ID must be an integer.");
+                return;
+            }
+
+            // Validate student name as a string
+            if (!/^[a-zA-Z\s]*$/.test(studentName)) {
+                alert("Student Name must contain only letters and spaces.");
+                return;
+            }
+
+            if (studentId.trim() === "" || studentName.trim() === "" || studentAddress.trim() === "") {
+                alert("Please fill out all fields.");
+                return;
+            }
+
+            const table = document.getElementById("studentTable").getElementsByTagName('tbody')[0];
+            const newRow = table.insertRow(table.rows.length);
+
+            const cell1 = newRow.insertCell(0);
+            const cell2 = newRow.insertCell(1);
+            const cell3 = newRow.insertCell(2);
+            const cell4 = newRow.insertCell(3);
+
+            cell1.innerHTML = studentId;
+            cell2.innerHTML = studentName;
+            cell3.innerHTML = studentAddress;
+            cell4.innerHTML = `<button class="delete-button" onclick="deleteStudent(this)">Delete</button>`;
+
+            // Clear the form fields
+            document.getElementById("studentId").value = "";
+            document.getElementById("studentName").value = "";
+            document.getElementById("studentAddress").value = "";
+        }
+
+        function deleteStudent(button) {
+            const row = button.parentElement.parentElement;
+            row.parentNode.removeChild(row);
+        }
+    </script>
+</body>
+
+</html>
